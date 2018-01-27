@@ -11,5 +11,10 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping("/hood")
+    public String hood(){
+        return "hood";
+    }
+
 
 }
