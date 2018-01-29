@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-    <title>Spring Core Online Tutorial</title>
+    <title>Syck Cloud | Hello Syck and Get Cat</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
@@ -16,13 +16,14 @@
           rel="stylesheet" meda="screen"/>
 </head>
 <body>
-<div class="container" style="display:flex; flex-flow: column; justify-content: center; align-items: center;">
-    <h1>Hello Syck</h1>
-    <p>Want a new cat!?</p>
-    <button id="hitme" type="button" class="btn btn-primary">Get cat!</button>
+<div class="container" style="display:flex; justify-content: center; align-items: center;">
+    <div class="col-lg-8" style="display:flex; flex-flow: column;">
+        <h1>Hello Syck</h1>
+        <p>Want a new cat!?</p>
+        <button id="hitme" type="button" class="btn btn-primary">Get cat!</button>
 
-    <img id="cat_pic" src="http://icons.iconarchive.com/icons/iconka/meow/256/cat-walk-icon.png" style="padding:20px;"/>
-
+        <img id="cat_pic" class="img-responsive" src="http://icons.iconarchive.com/icons/iconka/meow/256/cat-walk-icon.png" style="padding:20px 0px;"/>
+    </div>
 </div>
 </body>
 </html>
