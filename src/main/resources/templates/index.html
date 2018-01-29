@@ -16,9 +16,26 @@
           rel="stylesheet" meda="screen"/>
 </head>
 <body>
-<div class="container">
+<div class="container" style="display:flex; flex-flow: column; justify-content: center; align-items: center;">
     <h1>Hello Syck</h1>
-    <p>Welcome!</p>
+    <p>Want a new cat!?</p>
+    <button id="hitme" type="button" class="btn btn-primary">Get cat!</button>
+
+    <img id="cat_pic" src="http://icons.iconarchive.com/icons/iconka/meow/256/cat-walk-icon.png" style="padding:20px;"/>
+
 </div>
 </body>
 </html>
+<script>
+    $('#hitme').on({
+        'click': function(){
+            $.get("http://localhost:8080/getcat")
+                .done(function(data){
+                    console.log(data.img);
+                    $('#cat_pic').attr("src",data.img);
+
+                });
+        }
+    });
+
+</script>
