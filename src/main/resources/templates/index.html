@@ -29,7 +29,7 @@
 <script>
     $('#hitme').on({
         'click': function(){
-            $.get("http://localhost:8080/getcat")
+            $.get("/getcat")
                 .done(function(data){
                     console.log(data.img);
                     $('#cat_pic').attr("src",data.img);
