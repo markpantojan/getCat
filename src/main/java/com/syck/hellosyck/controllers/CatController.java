@@ -1,19 +1,16 @@
 package com.syck.hellosyck.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.syck.hellosyck.models.ImageType;
-import com.syck.hellosyck.models.ResponseType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.xml.SourceHttpMessageConverter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -25,20 +22,37 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
     @ResponseBody
     public String getCat() throws Exception{
 
-        String apiUrl = "http://thecatapi.com/api/images/get?format=xml&results_per_page=1";
+        String apiUrl = "https://api.thecatapi.com/v1/images/search";
 
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseType resp = restTemplate.getForObject(apiUrl, ResponseType.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
 
-        System.out.println("Response");
-        String imageUrl = "";
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(response.getBody());
 
-        for(ImageType image : resp.getData().getImages().getImage()){
-            System.out.println(image.getUrl());
-            imageUrl = image.getUrl();
+        return "{\"img\":\"" + findURL(root) + "\"}";
+    }
+
+    private static String findURL(JsonNode root) {
+        if(root.isObject()){
+            Iterator<String> fieldNames = root.fieldNames();
+
+            while(fieldNames.hasNext()){
+                String fieldName = fieldNames.next();
+                JsonNode fieldValue = root.get(fieldName);
+                return findURL(fieldValue);
+            }
+        } else if(root.isArray()){
+            ArrayNode arrayNode = (ArrayNode) root;
+            System.out.println(root.size());
+            for(int i = 0; i < arrayNode.size(); i++) {
+                JsonNode arrayElement = arrayNode.get(i);
+                return arrayNode.get(i).path("url").asText();
+            }
         }
 
-        return "{\"img\":\"" + imageUrl + "\"}";
+        return root.path("url").asText();
+
     }
 }
