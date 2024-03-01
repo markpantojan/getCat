@@ -32,6 +32,7 @@
         'click': function(){
             $.get("/getcat")
                 .done(function(data){
+                    console.log(data);
                     console.log(data.img);
                     $('#cat_pic').attr("src",data.img);
 
